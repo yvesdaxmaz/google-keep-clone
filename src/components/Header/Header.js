@@ -13,7 +13,7 @@ const Header = props => {
           <Button classes="mr-2" clicked={props.expandSidebar}>
             <BsList size="1.5em" />
           </Button>
-          <Logo name="Keep" />
+          <Logo name={props.name} />
         </div>
 
         <SearchBar
