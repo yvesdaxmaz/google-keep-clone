@@ -3,10 +3,12 @@ import Button from './../../../UI/Button/Button';
 import { FaRegCheckSquare, FaImage } from 'react-icons/fa';
 import { RiPushpin2Line } from 'react-icons/ri';
 import ContentEditable from 'react-contenteditable';
+import NoteOptions from '../../NoteOptions/NoteOptions';
 
-const NoteForm = ({ classes, isTyping, clicked }) => {
+const NoteForm = ({ classes, isTyping, clicked, endTyping }) => {
   const [title, setTitle] = useState('');
   const [note, setNote] = useState('');
+  const [bgColor, setBgColor] = useState('bg-white');
 
   const handleTitleChange = event => {
     let title = event.target.value;
@@ -15,6 +17,13 @@ const NoteForm = ({ classes, isTyping, clicked }) => {
     } else {
       setTitle(title);
     }
+  };
+
+  const handleCloseForm = () => {
+    setTitle('');
+    setNote('');
+    setBgColor('bg-white');
+    endTyping();
   };
 
   const handleNoteChange = event => {
@@ -26,9 +35,15 @@ const NoteForm = ({ classes, isTyping, clicked }) => {
     }
   };
 
+  const handleChangeBackground = bgColor => {
+    setBgColor(bgColor);
+  };
+
   return (
     <div className=" w-full max-w-2xl mx-auto " onClick={clicked}>
-      <div className="rounded shadow border-2 border-gray-300 px-4">
+      <div
+        className={`${bgColor} rounded shadow border-2 border-gray-300 px-4`}
+      >
         {!isTyping ? (
           <div className="flex items-center text-gray-600 h-10">
             <span className="text-sm font-bold flex-grow">
@@ -76,6 +91,15 @@ const NoteForm = ({ classes, isTyping, clicked }) => {
                 html={note}
                 onChange={handleNoteChange}
                 className={`${note === '' && 'h-6'} z-10 text-gray-800`}
+              />
+            </div>
+            <div className="flex flex-wrap items-center justify-between mb-2">
+              <NoteOptions large change={handleChangeBackground} />
+              <Button
+                classes={'ml-auto'}
+                texted
+                title="Fermer"
+                clicked={handleCloseForm}
               />
             </div>
           </div>
