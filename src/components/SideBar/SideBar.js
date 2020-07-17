@@ -1,5 +1,5 @@
 import React from 'react';
-import { MdLightbulbOutline, MdLabelOutline } from 'react-icons/md';
+import { MdLightbulbOutline, MdLabelOutline, MdEdit } from 'react-icons/md';
 import { BsBell, BsTrash } from 'react-icons/bs';
 import { FaArchive } from 'react-icons/fa';
 import TitledButton from './../../UI/TitledButton/TitledButton';
@@ -37,7 +37,7 @@ const SideBar = ({ classes, isExpanded }) => {
           </Link>
 
           <TitledButton label="Modifier les libellés" isExpanded={isExpanded}>
-            <MdLabelOutline size="1.5em" />
+            <MdEdit size="1.5em" />
           </TitledButton>
           <Link to="/archive">
             <TitledButton label="Archive" isExpanded={isExpanded}>

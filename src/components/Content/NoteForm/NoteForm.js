@@ -4,9 +4,18 @@ import { FaRegCheckSquare, FaImage } from 'react-icons/fa';
 import { RiPushpin2Line } from 'react-icons/ri';
 import ContentEditable from 'react-contenteditable';
 import NoteOptions from '../../NoteOptions/NoteOptions';
+import NoteParameters from './NoteParemeters/NoteParameters';
 
 const NoteForm = ({ classes, isTyping, clicked, endTyping }) => {
   const [title, setTitle] = useState('');
+  const [searchLabel, setSearchLabel] = useState('');
+  const [labels, setLabels] = useState([
+    'javascript',
+    'Projects',
+    'Reactjs',
+    'twailwindcss',
+  ]);
+  const [selectedLabels, setSelectedLabel] = useState(['javascript']);
   const [note, setNote] = useState('');
   const [bgColor, setBgColor] = useState('bg-white');
 
@@ -26,6 +35,24 @@ const NoteForm = ({ classes, isTyping, clicked, endTyping }) => {
     endTyping();
   };
 
+  const handleSearchLabel = searchTerm => {
+    setSearchLabel(searchTerm);
+  };
+
+  const handleAddLabel = () => {
+    setLabels([...labels, searchLabel]);
+  };
+
+  const selectLabel = label => {
+    let selected = [...selectedLabels];
+    if (selected.indexOf(label) !== -1) {
+      selected = selected.filter(l => l !== label);
+    } else {
+      selected = [...selected, label];
+    }
+    setSelectedLabel(selected);
+  };
+
   const handleNoteChange = event => {
     let note = event.target.value;
     if (note === '<br>') {
@@ -38,6 +65,14 @@ const NoteForm = ({ classes, isTyping, clicked, endTyping }) => {
   const handleChangeBackground = bgColor => {
     setBgColor(bgColor);
   };
+
+  let filteredLabels = labels;
+
+  if (searchLabel !== '') {
+    filteredLabels = labels.filter(l =>
+      l.toLowerCase().includes(searchLabel.toLowerCase()),
+    );
+  }
 
   return (
     <div className=" w-full max-w-2xl mx-auto " onClick={clicked}>
@@ -95,6 +130,14 @@ const NoteForm = ({ classes, isTyping, clicked, endTyping }) => {
             </div>
             <div className="flex flex-wrap items-center justify-between mb-2">
               <NoteOptions large change={handleChangeBackground} />
+              <NoteParameters
+                labels={filteredLabels}
+                search={handleSearchLabel}
+                searchTerm={searchLabel}
+                addLabel={handleAddLabel}
+                selectedLabels={selectedLabels}
+                selectLabel={selectLabel}
+              />
               <Button
                 classes={'ml-auto'}
                 texted

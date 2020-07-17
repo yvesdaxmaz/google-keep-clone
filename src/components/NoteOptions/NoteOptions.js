@@ -30,9 +30,6 @@ const NoteOptions = ({ classes, large, change }) => {
         <Button classes={spacingClasses} small>
           <FaArchive />
         </Button>
-        <Button classes={spacingClasses} small>
-          <BsThreeDotsVertical />
-        </Button>
       </div>
     </div>
   );
