@@ -5,6 +5,7 @@ import { RiPushpin2Line } from 'react-icons/ri';
 import ContentEditable from 'react-contenteditable';
 import NoteOptions from '../../NoteOptions/NoteOptions';
 import NoteParameters from './NoteParemeters/NoteParameters';
+import Badge from './../../../UI/Badge/Badge';
 
 const NoteForm = ({ classes, isTyping, clicked, endTyping }) => {
   const [title, setTitle] = useState('');
@@ -133,9 +134,7 @@ const NoteForm = ({ classes, isTyping, clicked, endTyping }) => {
                 <ul className="flex flex-wrap">
                   {selectedLabels.map(l => (
                     <li className="flex mr-2">
-                      <div className="relative px-2 py-1 bg-gray-300 text-xs rounded-full">
-                        {l}
-                      </div>
+                      <Badge label={l} clicked={selectLabel} />
                     </li>
                   ))}
                 </ul>
