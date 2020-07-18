@@ -1,7 +1,6 @@
 import React from 'react';
 import Button from '../../UI/Button/Button';
 import PaletteButton from '../../UI/PaletteButton/PaletteButton';
-import { BsThreeDotsVertical } from 'react-icons/bs';
 import {
   FaRegBell,
   FaUserPlus,

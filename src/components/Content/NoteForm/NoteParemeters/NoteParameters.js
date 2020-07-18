@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import Button from './../../../../UI/Button/Button';
 import { BsThreeDotsVertical, BsSearch, BsPlus, BsCheck } from 'react-icons/bs';
 
@@ -13,9 +13,14 @@ const NoteParameters = ({
   addLabel,
   selectedLabels,
   selectLabel,
+  note,
+  checked,
+  check,
 }) => {
   const [dropped, setDrowpped] = useState(false);
   const [droppedLabelOptions, setDroppedLabelOptions] = useState(false);
+
+  const wrapperRef = useRef(null);
 
   const handleCloseDropdown = () => {
     setDrowpped(!dropped);
@@ -25,12 +30,27 @@ const NoteParameters = ({
     setDrowpped(false);
     setDroppedLabelOptions(!droppedLabelOptions);
   };
+
   const handleSearchLabel = event => {
     search(event.target.value);
   };
 
+  const handleClickOutside = event => {
+    if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
+      setDrowpped(false);
+      setDroppedLabelOptions(false);
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      window.removeEventListener('mousedown', () => {});
+    };
+  }, []);
+
   return (
-    <div className={`relative ${classes}`}>
+    <div className={`relative ${classes}`} ref={wrapperRef}>
       <Button small={small} clicked={handleCloseDropdown}>
         <BsThreeDotsVertical />
       </Button>
@@ -40,16 +60,46 @@ const NoteParameters = ({
         } absolute top-10 w-56 left-0 white rounded border border-gray-300 shadow`}
       >
         <div className="flex flex-col justify-right text-sm py-1 bg-white">
-          <button
-            type="button"
-            className="py-1 hover:bg-gray-200"
-            onClick={showLabelOptions}
-          >
-            Ajouter un libellé
-          </button>
-          <button type="button" className="py-1 hover:bg-gray-200">
-            Afficher les cases à cocher
-          </button>
+          {!note ? (
+            <div className="">
+              <div
+                className="px-4 py-1 hover:bg-gray-200"
+                onClick={showLabelOptions}
+              >
+                Ajouter un libellé
+              </div>
+              <div className="px-4 py-1 hover:bg-gray-200" onClick={check}>
+                {!checked
+                  ? 'Afficher les cases à cocher'
+                  : 'Masquer les cases à cocher'}
+              </div>
+            </div>
+          ) : (
+            <div>
+              <div className="px-4 py-1 hover:bg-gray-200">
+                Supprimer la note
+              </div>
+
+              <div
+                className="px-4 py-1 hover:bg-gray-200"
+                onClick={showLabelOptions}
+              >
+                Modifier les libellés
+              </div>
+              <div className="px-4 py-1 hover:bg-gray-200">
+                Effectuer une copie
+              </div>
+              <div className="px-4 py-1 hover:bg-gray-200">
+                {!checked
+                  ? 'Afficher les cases à cocher'
+                  : 'Masquer les cases à cocher'}
+              </div>
+
+              <div className="px-4 py-1 hover:bg-gray-200">
+                Copier dans Google Docs
+              </div>
+            </div>
+          )}
         </div>
       </div>
       <div
@@ -91,7 +141,7 @@ const NoteParameters = ({
               </li>
             ))}
           </ul>
-          {searchTerm !== '' && labels.indexOf(searchTerm) == -1 ? (
+          {searchTerm !== '' && labels.indexOf(searchTerm) === -1 ? (
             <div className="flex items-center border-t text-xs border-gray-300 px-4 py-1 hover:bg-gray-100">
               <BsPlus size="1.5em" />
               <div className="flex-grow ml-2" onClick={addLabel}>

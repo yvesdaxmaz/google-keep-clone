@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Button from './../../../UI/Button/Button';
 import { FaRegCheckSquare, FaImage } from 'react-icons/fa';
 import { RiPushpin2Line } from 'react-icons/ri';
@@ -19,6 +19,8 @@ const NoteForm = ({ classes, isTyping, clicked, endTyping }) => {
   const [selectedLabels, setSelectedLabel] = useState(['javascript']);
   const [note, setNote] = useState('');
   const [bgColor, setBgColor] = useState('bg-white');
+  const [checked, setChecked] = useState(false);
+  const wrapperRef = useRef(null);
 
   const handleTitleChange = event => {
     let title = event.target.value;
@@ -27,6 +29,10 @@ const NoteForm = ({ classes, isTyping, clicked, endTyping }) => {
     } else {
       setTitle(title);
     }
+  };
+
+  const handleChecked = () => {
+    setChecked(!checked);
   };
 
   const handleCloseForm = () => {
@@ -56,15 +62,17 @@ const NoteForm = ({ classes, isTyping, clicked, endTyping }) => {
 
   const handleNoteChange = event => {
     let note = event.target.value;
-    if (note === '<br>') {
-      setNote('');
-    } else {
-      setNote(note);
-    }
+    setNote(note);
   };
 
   const handleChangeBackground = bgColor => {
     setBgColor(bgColor);
+  };
+
+  const handleClickOutside = event => {
+    if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
+      endTyping();
+    }
   };
 
   let filteredLabels = labels;
@@ -75,8 +83,19 @@ const NoteForm = ({ classes, isTyping, clicked, endTyping }) => {
     );
   }
 
+  useEffect(() => {
+    window.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      window.removeEventListener('mousedown', () => {});
+    };
+  }, []);
+
   return (
-    <div className=" w-full max-w-2xl mx-auto " onClick={clicked}>
+    <div
+      className=" w-full max-w-2xl mx-auto "
+      onClick={clicked}
+      ref={wrapperRef}
+    >
       <div
         className={`${bgColor} rounded shadow border-2 border-gray-300 px-4`}
       >
@@ -118,7 +137,7 @@ const NoteForm = ({ classes, isTyping, clicked, endTyping }) => {
               style={{ wordWrap: 'anywhere' }}
             >
               {!note && (
-                <span className="absolute h-6 w-full text-gray-800">
+                <span className="absolute h-6 w-full font-semibold text-gray-600">
                   Créer une note...
                 </span>
               )}
@@ -133,7 +152,7 @@ const NoteForm = ({ classes, isTyping, clicked, endTyping }) => {
               <div className="mt-4 mb-2">
                 <ul className="flex flex-wrap">
                   {selectedLabels.map(l => (
-                    <li className="flex mr-2">
+                    <li className="flex mr-2" key={l}>
                       <Badge label={l} clicked={selectLabel} />
                     </li>
                   ))}
@@ -149,6 +168,8 @@ const NoteForm = ({ classes, isTyping, clicked, endTyping }) => {
                 addLabel={handleAddLabel}
                 selectedLabels={selectedLabels}
                 selectLabel={selectLabel}
+                checked={checked}
+                check={handleChecked}
               />
               <Button
                 classes={'ml-auto'}
