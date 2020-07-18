@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import Button from './../../../../UI/Button/Button';
+import Button from './../../UI/Button/Button';
 import { BsThreeDotsVertical, BsSearch, BsPlus, BsCheck } from 'react-icons/bs';
 
 const NoteParameters = ({

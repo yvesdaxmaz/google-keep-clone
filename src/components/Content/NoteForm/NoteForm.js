@@ -4,7 +4,7 @@ import { FaRegCheckSquare, FaImage } from 'react-icons/fa';
 import { RiPushpin2Line } from 'react-icons/ri';
 import ContentEditable from 'react-contenteditable';
 import NoteOptions from '../../NoteOptions/NoteOptions';
-import NoteParameters from './NoteParemeters/NoteParameters';
+import NoteParameters from '../../NoteParemeters/NoteParameters';
 import Badge from './../../../UI/Badge/Badge';
 
 const NoteForm = ({ classes, isTyping, clicked, endTyping }) => {
