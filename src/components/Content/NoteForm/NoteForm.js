@@ -128,6 +128,19 @@ const NoteForm = ({ classes, isTyping, clicked, endTyping }) => {
                 className={`${note === '' && 'h-6'} z-10 text-gray-800`}
               />
             </div>
+            {selectedLabels && (
+              <div className="mt-4 mb-2">
+                <ul className="flex flex-wrap">
+                  {selectedLabels.map(l => (
+                    <li className="flex mr-2">
+                      <div className="relative px-2 py-1 bg-gray-300 text-xs rounded-full">
+                        {l}
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
             <div className="flex flex-wrap items-center justify-between mb-2">
               <NoteOptions large change={handleChangeBackground} />
               <NoteParameters

@@ -61,7 +61,7 @@ const NoteParameters = ({
           <div className="text-sm px-4 py-2" onClick={showLabelOptions}>
             Note associée à un libellé
           </div>
-          <div className="px-4 text-xs text-gray-700">
+          <div className="px-4 py-2 text-xs text-gray-700">
             <div className="flex items-center">
               <div className="flex-grow">
                 <input
@@ -91,15 +91,14 @@ const NoteParameters = ({
               </li>
             ))}
           </ul>
-          {searchTerm !== '' ? (
+          {searchTerm !== '' && labels.indexOf(searchTerm) == -1 ? (
             <div className="flex items-center border-t text-xs border-gray-300 px-4 py-1 hover:bg-gray-100">
               <BsPlus size="1.5em" />
               <div className="flex-grow ml-2" onClick={addLabel}>
                 Créer le libellé
                 <span className="ml-1">
-                  "<span className="font-bold">{searchTerm}</span>{' '}
+                  &ldquo;<span className="font-bold">{searchTerm}</span>&rdquo;
                 </span>
-                "
               </div>
             </div>
           ) : null}
