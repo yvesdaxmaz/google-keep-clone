@@ -1,25 +1,29 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useContext } from 'react';
 import Button from './../../../../UI/Button/Button';
-import { FaRegCheckSquare, FaImage } from 'react-icons/fa';
 import { RiPushpin2Line } from 'react-icons/ri';
-import ContentEditable from 'react-contenteditable';
 import NoteOptions from './../../../NoteOptions/NoteOptions';
 import NoteParameters from '../../../NoteParemeters/NoteParameters';
 import Badge from './../../../../UI/Badge/Badge';
-
+import KeepContext from './../../../../context/KeepContext';
 const Note = ({ classes, note, clicked }) => {
+  const { labels, selectLabel } = useContext(KeepContext);
   const [searchLabel, setSearchLabel] = useState('');
   const [bgColor, setBgColor] = useState('bg-white');
   const [checked, setChecked] = useState(false);
-  const [labels, setLabels] = useState(['javascript', 'tailwind', 'node']);
   const wrapperRef = useRef(null);
 
   const handleChecked = () => {
     setChecked(!checked);
   };
 
-  const handleSearchLabel = searchTerm => {
-    setSearchLabel(searchTerm);
+  const handleSelectLabel = label => {
+    let selected = [...note.selectedLabels];
+    if (selected.indexOf(label) !== -1) {
+      selected = selected.filter(l => l !== label);
+    } else {
+      selected = [...selected, label];
+    }
+    selectLabel(note.id, selected);
   };
 
   const handleChangeBackground = bgColor => {
@@ -68,7 +72,7 @@ const Note = ({ classes, note, clicked }) => {
               <ul className="flex flex-wrap">
                 {note.selectedLabels.map(l => (
                   <li className="flex mr-2" key={l}>
-                    <Badge label={l} clicked={() => {}} />
+                    <Badge label={l} clicked={() => handleSelectLabel(l)} />
                   </li>
                 ))}
               </ul>
@@ -77,6 +81,13 @@ const Note = ({ classes, note, clicked }) => {
         </div>
         <div className="flex flex-wrap items-center">
           <NoteOptions large change={handleChangeBackground} />
+          <NoteParameters
+            note={note}
+            selectedLabels={note.selectedLabels}
+            selectLabel={handleSelectLabel}
+            checked={checked}
+            check={handleChecked}
+          />
         </div>
       </div>
     </div>

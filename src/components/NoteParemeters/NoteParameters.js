@@ -15,7 +15,7 @@ const NoteParameters = ({
   checked,
   check,
 }) => {
-  const { labels, addLabel } = useContext(KeepContext);
+  const { labels, addLabel, deleteNote } = useContext(KeepContext);
   const [searchTerm, setSearchTerm] = useState('');
   const [dropped, setDrowpped] = useState(false);
   const [droppedLabelOptions, setDroppedLabelOptions] = useState(false);
@@ -45,6 +45,10 @@ const NoteParameters = ({
       setDrowpped(false);
       setDroppedLabelOptions(false);
     }
+  };
+
+  const handleDelete = () => {
+    deleteNote(note.id);
   };
 
   useEffect(() => {
@@ -89,7 +93,10 @@ const NoteParameters = ({
             </div>
           ) : (
             <div>
-              <div className="px-4 py-1 hover:bg-gray-200">
+              <div
+                className="px-4 py-1 hover:bg-gray-200"
+                onClick={handleDelete}
+              >
                 Supprimer la note
               </div>
 

@@ -1,18 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import Note from './Note/Note';
-
-const note = {
-  id: 1,
-  title: 'Note in next label',
-  content: 'this not is for testing purpose',
-  selectedLabels: ['javascript', 'tailwindcss'],
-  bgColor: 'white',
-};
+import KeepContext from './../../../context/KeepContext';
 
 const NoteList = ({ classes }) => {
+  const { notes } = useContext(KeepContext);
   return (
     <div className={`${classes} py-4 `}>
-      <Note note={note} />
+      {notes.map(note => (
+        <Note note={note} key={note.id} />
+      ))}
     </div>
   );
 };

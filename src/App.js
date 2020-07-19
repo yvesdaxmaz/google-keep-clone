@@ -7,6 +7,15 @@ import KeepContext from './context/KeepContext';
 
 function App(props) {
   const [labels, setLabels] = useState(['javascript', 'Projects', 'tailwind']);
+  const [notes, setNotes] = useState([
+    {
+      id: 1,
+      title: 'Note in next label',
+      content: 'this not is for testing purpose',
+      selectedLabels: ['javascript', 'tailwindcss'],
+      bgColor: 'white',
+    },
+  ]);
   const [isExpanded, setIsExpanded] = useState(false);
   const [name, setName] = useState('');
   const handleExpandSidebar = () => {
@@ -15,6 +24,25 @@ function App(props) {
 
   const addLabel = label => {
     setLabels([...labels, label]);
+  };
+
+  const selectLabel = (noteId, labels) => {
+    let updateNotes = [...notes];
+    let noteIndex = updateNotes.findIndex(n => n.id === noteId);
+    if (noteIndex !== -1) {
+      let note = updateNotes[noteIndex];
+      note.selectedLabels = labels;
+    }
+
+    setNotes(updateNotes);
+  };
+
+  const deleteNote = noteId => {
+    setNotes([...notes.filter(n => n.id !== noteId)]);
+  };
+
+  const addNote = note => {
+    setNotes([...notes, note]);
   };
 
   useEffect(() => {
@@ -30,7 +58,9 @@ function App(props) {
   }, [props.location.pathname]);
 
   return (
-    <KeepContext.Provider value={{ labels, addLabel }}>
+    <KeepContext.Provider
+      value={{ labels, addLabel, selectLabel, notes, deleteNote }}
+    >
       <div className="App">
         <Header expandSidebar={handleExpandSidebar} name={name}></Header>
         <main className="flex">
