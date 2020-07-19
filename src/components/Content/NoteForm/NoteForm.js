@@ -8,10 +8,10 @@ import NoteParameters from '../../NoteParemeters/NoteParameters';
 import Badge from './../../../UI/Badge/Badge';
 import KeepContext from './../../../context/KeepContext';
 const NoteForm = ({ classes, isTyping, clicked, endTyping }) => {
-  const { labels } = useContext(KeepContext);
+  const { addNote } = useContext(KeepContext);
   const [title, setTitle] = useState('');
-  const [selectedLabels, setSelectedLabel] = useState(['javascript']);
   const [note, setNote] = useState('');
+  const [selectedLabels, setSelectedLabel] = useState([]);
   const [bgColor, setBgColor] = useState('bg-white');
   const [checked, setChecked] = useState(false);
   const wrapperRef = useRef(null);
@@ -27,8 +27,7 @@ const NoteForm = ({ classes, isTyping, clicked, endTyping }) => {
     setChecked(!checked);
   };
   const handleCloseForm = () => {
-    setTitle('');
-    setNote('');
+    saveNote();
     setBgColor('bg-white');
     endTyping();
   };
@@ -40,6 +39,14 @@ const NoteForm = ({ classes, isTyping, clicked, endTyping }) => {
       selected = [...selected, label];
     }
     setSelectedLabel(selected);
+  };
+
+  const saveNote = () => {
+    addNote({
+      title,
+      note,
+      selectedLabels,
+    });
   };
 
   const handleNoteChange = event => {
@@ -54,6 +61,13 @@ const NoteForm = ({ classes, isTyping, clicked, endTyping }) => {
   const handleClickOutside = event => {
     if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
       endTyping();
+
+      if (title !== '' || note !== '') {
+        console.log('');
+        saveNote();
+      }
+      setNote('');
+      setTitle('');
     }
   };
 
@@ -62,7 +76,7 @@ const NoteForm = ({ classes, isTyping, clicked, endTyping }) => {
     return () => {
       window.removeEventListener('mousedown', () => {});
     };
-  }, []);
+  });
 
   return (
     <div

@@ -6,8 +6,7 @@ import NoteParameters from '../../../NoteParemeters/NoteParameters';
 import Badge from './../../../../UI/Badge/Badge';
 import KeepContext from './../../../../context/KeepContext';
 const Note = ({ classes, note, clicked }) => {
-  const { labels, selectLabel } = useContext(KeepContext);
-  const [searchLabel, setSearchLabel] = useState('');
+  const { grid, selectLabel } = useContext(KeepContext);
   const [bgColor, setBgColor] = useState('bg-white');
   const [checked, setChecked] = useState(false);
   const wrapperRef = useRef(null);
@@ -34,12 +33,6 @@ const Note = ({ classes, note, clicked }) => {
     if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
     }
   };
-  let filteredLabels = labels;
-  if (searchLabel !== '') {
-    filteredLabels = labels.filter(l =>
-      l.toLowerCase().includes(searchLabel.toLowerCase()),
-    );
-  }
 
   useEffect(() => {
     window.addEventListener('mousedown', handleClickOutside);
@@ -50,7 +43,7 @@ const Note = ({ classes, note, clicked }) => {
 
   return (
     <div
-      className=" w-full max-w-2xl mx-auto "
+      className=" w-full max-w-2xl mx-auto mb-2"
       onClick={clicked}
       ref={wrapperRef}
     >
@@ -80,8 +73,9 @@ const Note = ({ classes, note, clicked }) => {
           )}
         </div>
         <div className="flex flex-wrap items-center">
-          <NoteOptions large change={handleChangeBackground} />
+          <NoteOptions change={handleChangeBackground} large={grid} />
           <NoteParameters
+            small
             note={note}
             selectedLabels={note.selectedLabels}
             selectLabel={handleSelectLabel}

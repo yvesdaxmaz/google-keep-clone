@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import Button from '../../UI/Button/Button';
 import PaletteButton from '../../UI/PaletteButton/PaletteButton';
 import {
@@ -8,6 +8,7 @@ import {
   FaImage,
   FaArchive,
 } from 'react-icons/fa';
+import KeepContext from '../../context/KeepContext';
 
 const NoteOptions = ({ classes, large, change }) => {
   let spacingClasses = `${large ? 'mr-4' : 'mr-2'}`;

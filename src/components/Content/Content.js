@@ -12,7 +12,6 @@ const Content = ({ classes }) => {
   };
 
   const handleEndTyping = () => {
-    console.log('Ending Typing');
     setIsTyping(false);
   };
 

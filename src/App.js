@@ -6,6 +6,7 @@ import { withRouter } from 'react-router-dom';
 import KeepContext from './context/KeepContext';
 
 function App(props) {
+  const [grid, setGrid] = useState(false);
   const [labels, setLabels] = useState(['javascript', 'Projects', 'tailwind']);
   const [notes, setNotes] = useState([
     {
@@ -26,6 +27,10 @@ function App(props) {
     setLabels([...labels, label]);
   };
 
+  const switchToGridLayout = () => {
+    setGrid(!grid);
+  };
+
   const selectLabel = (noteId, labels) => {
     let updateNotes = [...notes];
     let noteIndex = updateNotes.findIndex(n => n.id === noteId);
@@ -42,6 +47,7 @@ function App(props) {
   };
 
   const addNote = note => {
+    note.id = notes.length + 1;
     setNotes([...notes, note]);
   };
 
@@ -59,7 +65,16 @@ function App(props) {
 
   return (
     <KeepContext.Provider
-      value={{ labels, addLabel, selectLabel, notes, deleteNote }}
+      value={{
+        grid,
+        labels,
+        addLabel,
+        selectLabel,
+        notes,
+        deleteNote,
+        addNote,
+        switchLayout: switchToGridLayout,
+      }}
     >
       <div className="App">
         <Header expandSidebar={handleExpandSidebar} name={name}></Header>

@@ -74,7 +74,7 @@ const NoteParameters = ({
       <div
         className={`${
           dropped ? '' : 'hidden'
-        } absolute top-10 w-56 left-0 white rounded border border-gray-300 shadow`}
+        } absolute top-10 w-56 right-0 sm:left-0 white rounded border border-gray-300 shadow`}
       >
         <div className="flex flex-col justify-right text-sm py-1 bg-white">
           {!note ? (
