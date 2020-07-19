@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import NoteForm from './NoteForm/NoteForm';
+import NoteList from './NoteList/NoteList';
+
 const Content = ({ classes }) => {
   const [isTyping, setIsTyping] = useState(false);
 
@@ -22,6 +24,7 @@ const Content = ({ classes }) => {
           clicked={handleStartTyping}
           endTyping={handleEndTyping}
         />
+        <NoteList grid />
       </div>
     </div>
   );

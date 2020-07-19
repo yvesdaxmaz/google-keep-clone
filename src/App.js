@@ -3,12 +3,18 @@ import Header from './components/Header/Header';
 import SideBar from './components/SideBar/SideBar';
 import Content from './components/Content/Content';
 import { withRouter } from 'react-router-dom';
+import KeepContext from './context/KeepContext';
 
 function App(props) {
+  const [labels, setLabels] = useState(['javascript', 'Projects', 'tailwind']);
   const [isExpanded, setIsExpanded] = useState(false);
   const [name, setName] = useState('');
   const handleExpandSidebar = () => {
     setIsExpanded(!isExpanded);
+  };
+
+  const addLabel = label => {
+    setLabels([...labels, label]);
   };
 
   useEffect(() => {
@@ -24,18 +30,20 @@ function App(props) {
   }, [props.location.pathname]);
 
   return (
-    <div className="App">
-      <Header expandSidebar={handleExpandSidebar} name={name}></Header>
-      <main className="flex">
-        <SideBar
-          classes={`${
-            isExpanded ? 'fixed z-10 sm:relative max-w-xs pr-4' : ''
-          } pt-4 shadow bg-white`}
-          isExpanded={isExpanded}
-        />
-        <Content classes="flex-grow" />
-      </main>
-    </div>
+    <KeepContext.Provider value={{ labels, addLabel }}>
+      <div className="App">
+        <Header expandSidebar={handleExpandSidebar} name={name}></Header>
+        <main className="flex">
+          <SideBar
+            classes={`${
+              isExpanded ? 'fixed z-10 sm:relative max-w-xs pr-4' : ''
+            } pt-4 shadow bg-white`}
+            isExpanded={isExpanded}
+          />
+          <Content classes="flex-grow" />
+        </main>
+      </div>
+    </KeepContext.Provider>
   );
 }
 

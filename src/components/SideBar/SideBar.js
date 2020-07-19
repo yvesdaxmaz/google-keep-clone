@@ -1,13 +1,15 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { withRouter } from 'react-router-dom';
 import { MdLightbulbOutline, MdLabelOutline, MdEdit } from 'react-icons/md';
 import { BsBell, BsTrash } from 'react-icons/bs';
 import { FaArchive } from 'react-icons/fa';
 import TitledButton from './../../UI/TitledButton/TitledButton';
 import { Link } from 'react-router-dom';
+import KeepContext from './../../context/KeepContext';
 
 const SideBar = ({ classes, isExpanded, location }) => {
-  console.log(location);
+  const { labels } = useContext(KeepContext);
+
   const isActive = path => {
     return location.pathname === path;
   };
@@ -34,30 +36,19 @@ const SideBar = ({ classes, isExpanded, location }) => {
               <BsBell size="1.5em" />
             </TitledButton>
           </Link>
-          <Link to="/label/javascript">
-            <TitledButton
-              label="javascript"
-              isActive={isActive('/label/javascript') ? true : false}
-            >
-              <MdLabelOutline size="1.5em" />
-            </TitledButton>
-          </Link>
-          <Link to="/label/Projects">
-            <TitledButton
-              label="Projects"
-              isActive={isActive('/label/Projects') ? true : false}
-            >
-              <MdLabelOutline size="1.5em" />
-            </TitledButton>
-          </Link>
-          <Link
-            to="/label/tailwindcss"
-            isActive={isActive('/label/tailwindcss') ? true : false}
-          >
-            <TitledButton label="Projects" isExpanded={isExpanded}>
-              <MdLabelOutline size="1.5em" />
-            </TitledButton>
-          </Link>
+          {labels.map(label => {
+            return (
+              <Link to={`/label/${label}`} key={label}>
+                <TitledButton
+                  label={label}
+                  isExpanded={isExpanded}
+                  isActive={isActive(`/label/${label}`) ? true : false}
+                >
+                  <MdLabelOutline size="1.5em" />
+                </TitledButton>
+              </Link>
+            );
+          })}
 
           <TitledButton label="Modifier les libellés" isExpanded={isExpanded}>
             <MdEdit size="1.5em" />

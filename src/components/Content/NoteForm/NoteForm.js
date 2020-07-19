@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useContext } from 'react';
 import Button from './../../../UI/Button/Button';
 import { FaRegCheckSquare, FaImage } from 'react-icons/fa';
 import { RiPushpin2Line } from 'react-icons/ri';
@@ -6,22 +6,15 @@ import ContentEditable from 'react-contenteditable';
 import NoteOptions from '../../NoteOptions/NoteOptions';
 import NoteParameters from '../../NoteParemeters/NoteParameters';
 import Badge from './../../../UI/Badge/Badge';
-
+import KeepContext from './../../../context/KeepContext';
 const NoteForm = ({ classes, isTyping, clicked, endTyping }) => {
+  const { labels } = useContext(KeepContext);
   const [title, setTitle] = useState('');
-  const [searchLabel, setSearchLabel] = useState('');
-  const [labels, setLabels] = useState([
-    'javascript',
-    'Projects',
-    'Reactjs',
-    'twailwindcss',
-  ]);
   const [selectedLabels, setSelectedLabel] = useState(['javascript']);
   const [note, setNote] = useState('');
   const [bgColor, setBgColor] = useState('bg-white');
   const [checked, setChecked] = useState(false);
   const wrapperRef = useRef(null);
-
   const handleTitleChange = event => {
     let title = event.target.value;
     if (title === '<br>') {
@@ -30,26 +23,15 @@ const NoteForm = ({ classes, isTyping, clicked, endTyping }) => {
       setTitle(title);
     }
   };
-
   const handleChecked = () => {
     setChecked(!checked);
   };
-
   const handleCloseForm = () => {
     setTitle('');
     setNote('');
     setBgColor('bg-white');
     endTyping();
   };
-
-  const handleSearchLabel = searchTerm => {
-    setSearchLabel(searchTerm);
-  };
-
-  const handleAddLabel = () => {
-    setLabels([...labels, searchLabel]);
-  };
-
   const selectLabel = label => {
     let selected = [...selectedLabels];
     if (selected.indexOf(label) !== -1) {
@@ -74,14 +56,6 @@ const NoteForm = ({ classes, isTyping, clicked, endTyping }) => {
       endTyping();
     }
   };
-
-  let filteredLabels = labels;
-
-  if (searchLabel !== '') {
-    filteredLabels = labels.filter(l =>
-      l.toLowerCase().includes(searchLabel.toLowerCase()),
-    );
-  }
 
   useEffect(() => {
     window.addEventListener('mousedown', handleClickOutside);
@@ -162,10 +136,6 @@ const NoteForm = ({ classes, isTyping, clicked, endTyping }) => {
             <div className="flex flex-wrap items-center justify-between mb-2">
               <NoteOptions large change={handleChangeBackground} />
               <NoteParameters
-                labels={filteredLabels}
-                search={handleSearchLabel}
-                searchTerm={searchLabel}
-                addLabel={handleAddLabel}
                 selectedLabels={selectedLabels}
                 selectLabel={selectLabel}
                 checked={checked}

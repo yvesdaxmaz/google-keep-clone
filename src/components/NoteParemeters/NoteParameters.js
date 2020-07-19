@@ -1,22 +1,22 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useContext } from 'react';
 import Button from './../../UI/Button/Button';
 import { BsThreeDotsVertical, BsSearch, BsPlus, BsCheck } from 'react-icons/bs';
+import KeepContext from './../../context/KeepContext';
 
 const NoteParameters = ({
   classes,
   children,
   spacing,
   small,
-  labels,
-  searchTerm,
   search,
-  addLabel,
   selectedLabels,
   selectLabel,
   note,
   checked,
   check,
 }) => {
+  const { labels, addLabel } = useContext(KeepContext);
+  const [searchTerm, setSearchTerm] = useState('');
   const [dropped, setDrowpped] = useState(false);
   const [droppedLabelOptions, setDroppedLabelOptions] = useState(false);
 
@@ -31,8 +31,13 @@ const NoteParameters = ({
     setDroppedLabelOptions(!droppedLabelOptions);
   };
 
+  const handleAddLabel = () => {
+    addLabel(searchTerm);
+    selectLabel(searchTerm);
+  };
+
   const handleSearchLabel = event => {
-    search(event.target.value);
+    setSearchTerm(event.target.value);
   };
 
   const handleClickOutside = event => {
@@ -48,6 +53,14 @@ const NoteParameters = ({
       window.removeEventListener('mousedown', () => {});
     };
   }, []);
+
+  let filteredLabels = labels;
+
+  if (searchTerm !== '') {
+    filteredLabels = labels.filter(l =>
+      l.toLowerCase().includes(searchTerm.toLowerCase()),
+    );
+  }
 
   return (
     <div className={`relative ${classes}`} ref={wrapperRef}>
@@ -126,7 +139,7 @@ const NoteParameters = ({
             </div>
           </div>
           <ul>
-            {labels.map(label => (
+            {filteredLabels.map(label => (
               <li
                 className="flex items-center px-4 py-1 hover:bg-gray-100"
                 key={label}
@@ -144,7 +157,7 @@ const NoteParameters = ({
           {searchTerm !== '' && labels.indexOf(searchTerm) === -1 ? (
             <div className="flex items-center border-t text-xs border-gray-300 px-4 py-1 hover:bg-gray-100">
               <BsPlus size="1.5em" />
-              <div className="flex-grow ml-2" onClick={addLabel}>
+              <div className="flex-grow ml-2" onClick={handleAddLabel}>
                 Créer le libellé
                 <span className="ml-1">
                   &ldquo;<span className="font-bold">{searchTerm}</span>&rdquo;
