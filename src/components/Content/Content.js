@@ -17,7 +17,7 @@ const Content = ({ classes }) => {
 
   return (
     <div className={`${classes} px-4`}>
-      <div className="py-8">
+      <div className="py-8 h-full">
         <NoteForm
           isTyping={isTyping}
           clicked={handleStartTyping}

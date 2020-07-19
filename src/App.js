@@ -13,7 +13,7 @@ function App(props) {
       id: 1,
       title: 'Note in next label',
       content: 'this not is for testing purpose',
-      selectedLabels: ['javascript', 'tailwindcss'],
+      selectedLabels: ['javascript', 'tailwind'],
       bgColor: 'bg-white',
     },
   ]);
@@ -74,6 +74,16 @@ function App(props) {
     }
   }, [props.location.pathname]);
 
+  let filteredNotes = notes;
+
+  let labelPathPatern = /\/label\/(.+)/;
+  let isMatch = props.location.pathname.match(labelPathPatern);
+  if (isMatch) {
+    filteredNotes = filteredNotes.filter(note =>
+      note.selectedLabels.includes(isMatch[1]),
+    );
+  }
+
   return (
     <KeepContext.Provider
       value={{
@@ -81,7 +91,7 @@ function App(props) {
         labels,
         addLabel,
         selectLabel,
-        notes,
+        notes: filteredNotes,
         deleteNote,
         addNote,
         selectBg,
