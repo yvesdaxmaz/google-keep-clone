@@ -10,7 +10,7 @@ import KeepContext from './../../../context/KeepContext';
 const NoteForm = ({ classes, isTyping, clicked, endTyping }) => {
   const { addNote } = useContext(KeepContext);
   const [title, setTitle] = useState('');
-  const [note, setNote] = useState('');
+  const [content, setContent] = useState('');
   const [selectedLabels, setSelectedLabel] = useState([]);
   const [bgColor, setBgColor] = useState('bg-white');
   const [checked, setChecked] = useState(false);
@@ -44,14 +44,15 @@ const NoteForm = ({ classes, isTyping, clicked, endTyping }) => {
   const saveNote = () => {
     addNote({
       title,
-      note,
+      content,
       selectedLabels,
+      bgColor,
     });
   };
 
-  const handleNoteChange = event => {
+  const handleContentChange = event => {
     let note = event.target.value;
-    setNote(note);
+    setContent(note);
   };
 
   const handleChangeBackground = bgColor => {
@@ -62,12 +63,13 @@ const NoteForm = ({ classes, isTyping, clicked, endTyping }) => {
     if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
       endTyping();
 
-      if (title !== '' || note !== '') {
+      if (title !== '' || content !== '') {
         console.log('');
         saveNote();
       }
-      setNote('');
+      setContent('');
       setTitle('');
+      setBgColor('bg-white');
     }
   };
 
@@ -124,16 +126,16 @@ const NoteForm = ({ classes, isTyping, clicked, endTyping }) => {
               className="relative text-sm mb-2"
               style={{ wordWrap: 'anywhere' }}
             >
-              {!note && (
+              {!content && (
                 <span className="absolute h-6 w-full font-semibold text-gray-600">
                   Créer une note...
                 </span>
               )}
 
               <ContentEditable
-                html={note}
-                onChange={handleNoteChange}
-                className={`${note === '' && 'h-6'} z-10 text-gray-800`}
+                html={content}
+                onChange={handleContentChange}
+                className={`${content === '' && 'h-6'} z-10 text-gray-800`}
               />
             </div>
             {selectedLabels && (

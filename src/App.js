@@ -14,7 +14,7 @@ function App(props) {
       title: 'Note in next label',
       content: 'this not is for testing purpose',
       selectedLabels: ['javascript', 'tailwindcss'],
-      bgColor: 'white',
+      bgColor: 'bg-white',
     },
   ]);
   const [isExpanded, setIsExpanded] = useState(false);
@@ -37,6 +37,17 @@ function App(props) {
     if (noteIndex !== -1) {
       let note = updateNotes[noteIndex];
       note.selectedLabels = labels;
+    }
+
+    setNotes(updateNotes);
+  };
+
+  const selectBg = (noteId, color) => {
+    let updateNotes = [...notes];
+    let noteIndex = updateNotes.findIndex(n => n.id === noteId);
+    if (noteIndex !== -1) {
+      let note = updateNotes[noteIndex];
+      note.bgColor = color;
     }
 
     setNotes(updateNotes);
@@ -73,6 +84,7 @@ function App(props) {
         notes,
         deleteNote,
         addNote,
+        selectBg,
         switchLayout: switchToGridLayout,
       }}
     >

@@ -6,8 +6,7 @@ import NoteParameters from '../../../NoteParemeters/NoteParameters';
 import Badge from './../../../../UI/Badge/Badge';
 import KeepContext from './../../../../context/KeepContext';
 const Note = ({ classes, note, clicked }) => {
-  const { grid, selectLabel } = useContext(KeepContext);
-  const [bgColor, setBgColor] = useState('bg-white');
+  const { grid, selectLabel, selectBg } = useContext(KeepContext);
   const [checked, setChecked] = useState(false);
   const wrapperRef = useRef(null);
 
@@ -26,7 +25,7 @@ const Note = ({ classes, note, clicked }) => {
   };
 
   const handleChangeBackground = bgColor => {
-    setBgColor(bgColor);
+    selectBg(note.id, bgColor);
   };
 
   const handleClickOutside = event => {
@@ -47,7 +46,9 @@ const Note = ({ classes, note, clicked }) => {
       onClick={clicked}
       ref={wrapperRef}
     >
-      <div className={`${bgColor} rounded shadow border-2 border-gray-300 p-4`}>
+      <div
+        className={`${note.bgColor} rounded shadow border-2 border-gray-300 p-4`}
+      >
         <div className="">
           <div className="flex items-start" style={{ wordWrap: 'anywhere' }}>
             <span className="flex-grow mr-2 text-sm font-semibold text-gray-600">
