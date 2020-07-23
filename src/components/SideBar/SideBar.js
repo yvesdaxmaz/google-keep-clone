@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom';
 import KeepContext from './../../context/KeepContext';
 
 const SideBar = ({ classes, isExpanded, location }) => {
-  const { labels } = useContext(KeepContext);
+  const { labels, startEdit } = useContext(KeepContext);
 
   const isActive = path => {
     return location.pathname === path;
@@ -50,9 +50,11 @@ const SideBar = ({ classes, isExpanded, location }) => {
             );
           })}
 
-          <TitledButton label="Modifier les libellés" isExpanded={isExpanded}>
-            <MdEdit size="1.5em" />
-          </TitledButton>
+          <div onClick={startEdit}>
+            <TitledButton label="Modifier les libellés" isExpanded={isExpanded}>
+              <MdEdit size="1.5em" />
+            </TitledButton>
+          </div>
           <Link to="/archive">
             <TitledButton
               label="Archive"

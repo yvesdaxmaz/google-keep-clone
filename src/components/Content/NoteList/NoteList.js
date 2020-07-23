@@ -15,8 +15,8 @@ const NoteList = ({ classes }) => {
               : ''
           }`}
         >
-          {notes.map(note => (
-            <Note note={note} key={note.id} />
+          {notes.map((note, i) => (
+            <Note note={note} key={i} />
           ))}
         </div>
       ) : (

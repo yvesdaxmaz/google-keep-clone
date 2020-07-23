@@ -1,16 +1,19 @@
 import React, { useContext } from 'react';
 import Button from '../../UI/Button/Button';
 import PaletteButton from '../../UI/PaletteButton/PaletteButton';
-import {
-  FaRegBell,
-  FaUserPlus,
-  FaPalette,
-  FaImage,
-  FaArchive,
-} from 'react-icons/fa';
-import KeepContext from '../../context/KeepContext';
+import { FaRegBell, FaUserPlus, FaPalette, FaImage } from 'react-icons/fa';
+import { MdArchive, MdUnarchive } from 'react-icons/md';
+import KeepContext from './../../context/KeepContext';
 
-const NoteOptions = ({ classes, large, change }) => {
+const NoteOptions = ({
+  classes,
+  large,
+  change,
+  archived,
+  archive,
+  unarchive,
+}) => {
+  const { archiveNote, unArchiveNote } = useContext(KeepContext);
   let spacingClasses = `${large ? 'mr-4' : 'mr-2'}`;
   return (
     <div className={classes}>
@@ -27,9 +30,15 @@ const NoteOptions = ({ classes, large, change }) => {
         <Button classes={spacingClasses} small>
           <FaImage />
         </Button>
-        <Button classes={spacingClasses} small>
-          <FaArchive />
-        </Button>
+        {!archived ? (
+          <Button classes={spacingClasses} small clicked={archive}>
+            <MdArchive />
+          </Button>
+        ) : (
+          <Button classes={spacingClasses} small clicked={unarchive}>
+            <MdUnarchive />
+          </Button>
+        )}
       </div>
     </div>
   );

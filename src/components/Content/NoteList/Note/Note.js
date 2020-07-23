@@ -6,12 +6,26 @@ import NoteParameters from '../../../NoteParemeters/NoteParameters';
 import Badge from './../../../../UI/Badge/Badge';
 import KeepContext from './../../../../context/KeepContext';
 const Note = ({ classes, note, clicked }) => {
-  const { grid, selectLabel, selectBg } = useContext(KeepContext);
+  const {
+    grid,
+    selectLabel,
+    selectBg,
+    archiveNote,
+    unArchiveNote,
+  } = useContext(KeepContext);
   const [checked, setChecked] = useState(false);
   const wrapperRef = useRef(null);
 
   const handleChecked = () => {
     setChecked(!checked);
+  };
+
+  const handleArchive = () => {
+    archiveNote(note.id);
+  };
+
+  const handleUnarchive = () => {
+    unArchiveNote(note.id);
   };
 
   const handleSelectLabel = label => {
@@ -74,7 +88,14 @@ const Note = ({ classes, note, clicked }) => {
           )}
         </div>
         <div className="flex flex-wrap items-center">
-          <NoteOptions change={handleChangeBackground} large={grid} />
+          <NoteOptions
+            change={handleChangeBackground}
+            large={grid}
+            archived={note.archived}
+            archive={handleArchive}
+            unarchive={handleUnarchive}
+            noteId={note.id}
+          />
           <NoteParameters
             small
             note={note}

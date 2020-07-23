@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import Button from './../../UI/Button/Button';
 import Logo from './../../UI/Logo/Logo';
 import SearchBar from './SearchBar/SearchBar';

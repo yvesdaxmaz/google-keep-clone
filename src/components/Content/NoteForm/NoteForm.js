@@ -9,6 +9,7 @@ import Badge from './../../../UI/Badge/Badge';
 import KeepContext from './../../../context/KeepContext';
 const NoteForm = ({ classes, isTyping, clicked, endTyping }) => {
   const { addNote } = useContext(KeepContext);
+  const [archived, setArchived] = useState(false);
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [selectedLabels, setSelectedLabel] = useState([]);
@@ -26,6 +27,13 @@ const NoteForm = ({ classes, isTyping, clicked, endTyping }) => {
   const handleChecked = () => {
     setChecked(!checked);
   };
+  const handleArchive = () => {
+    setArchived(true);
+  };
+  const handleUnarchive = () => {
+    setArchived(false);
+  };
+
   const handleCloseForm = () => {
     saveNote();
     setBgColor('bg-white');
@@ -47,6 +55,7 @@ const NoteForm = ({ classes, isTyping, clicked, endTyping }) => {
       content,
       selectedLabels,
       bgColor,
+      archived,
     });
   };
 
@@ -150,7 +159,13 @@ const NoteForm = ({ classes, isTyping, clicked, endTyping }) => {
               </div>
             )}
             <div className="flex flex-wrap items-center justify-between mb-2">
-              <NoteOptions large change={handleChangeBackground} />
+              <NoteOptions
+                large
+                change={handleChangeBackground}
+                archived={archived}
+                archive={handleArchive}
+                unarchive={handleUnarchive}
+              />
               <NoteParameters
                 selectedLabels={selectedLabels}
                 selectLabel={selectLabel}

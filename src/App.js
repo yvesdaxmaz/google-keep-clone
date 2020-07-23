@@ -4,8 +4,10 @@ import SideBar from './components/SideBar/SideBar';
 import Content from './components/Content/Content';
 import { withRouter } from 'react-router-dom';
 import KeepContext from './context/KeepContext';
+import Modal from './components/Modal/Modal';
 
 function App(props) {
+  const [edit, setEdit] = useState(false);
   const [grid, setGrid] = useState(false);
   const [labels, setLabels] = useState(['javascript', 'Projects', 'tailwind']);
   const [notes, setNotes] = useState([
@@ -15,12 +17,30 @@ function App(props) {
       content: 'this not is for testing purpose',
       selectedLabels: ['javascript', 'tailwind'],
       bgColor: 'bg-white',
+      archived: false,
+    },
+    {
+      id: 2,
+      title: 'This is an archive note',
+      content: 'this not is for testing archive note',
+      selectedLabels: ['javascript', 'tailwind'],
+      bgColor: 'bg-white',
+      archived: true,
     },
   ]);
   const [isExpanded, setIsExpanded] = useState(false);
   const [name, setName] = useState('');
   const handleExpandSidebar = () => {
     setIsExpanded(!isExpanded);
+  };
+  const editLabel = (oldLabel, newLabel) => {
+    const newLabels = [...labels].map(label => {
+      if (label === oldLabel) {
+        return newLabel;
+      }
+      return label;
+    });
+    setLabels(newLabels);
   };
 
   const addLabel = label => {
@@ -29,6 +49,14 @@ function App(props) {
 
   const switchToGridLayout = () => {
     setGrid(!grid);
+  };
+
+  const startEdit = () => {
+    setEdit(true);
+  };
+
+  const endEdit = () => {
+    setEdit(false);
   };
 
   const selectLabel = (noteId, labels) => {
@@ -52,9 +80,33 @@ function App(props) {
 
     setNotes(updateNotes);
   };
+  const archiveNote = noteId => {
+    let updateNotes = [...notes];
+    let noteIndex = updateNotes.findIndex(n => n.id === noteId);
+    if (noteIndex !== -1) {
+      let note = updateNotes[noteIndex];
+      note.archived = true;
+    }
+
+    setNotes(updateNotes);
+  };
+  const unArchiveNote = noteId => {
+    let updateNotes = [...notes];
+    let noteIndex = updateNotes.findIndex(n => n.id === noteId);
+    if (noteIndex !== -1) {
+      let note = updateNotes[noteIndex];
+      note.archived = false;
+    }
+
+    setNotes(updateNotes);
+  };
 
   const deleteNote = noteId => {
     setNotes([...notes.filter(n => n.id !== noteId)]);
+  };
+
+  const deleteLabel = label => {
+    setLabels([...labels.filter(l => l !== label)]);
   };
 
   const addNote = note => {
@@ -74,7 +126,7 @@ function App(props) {
     }
   }, [props.location.pathname]);
 
-  let filteredNotes = notes;
+  let filteredNotes = [...notes.filter(n => !n.archived)];
 
   let labelPathPatern = /\/label\/(.+)/;
   let isMatch = props.location.pathname.match(labelPathPatern);
@@ -84,21 +136,33 @@ function App(props) {
     );
   }
 
+  let archivePathPatern = /\/archive/;
+  let isArchive = props.location.pathname.match(archivePathPatern);
+  if (isArchive) {
+    filteredNotes = [...notes.filter(n => n.archived)];
+  }
+
   return (
     <KeepContext.Provider
       value={{
         grid,
         labels,
         addLabel,
+        editLabel,
+        deleteLabel,
         selectLabel,
         notes: filteredNotes,
         deleteNote,
         addNote,
         selectBg,
         switchLayout: switchToGridLayout,
+        archiveNote,
+        unArchiveNote,
+        startEdit,
+        endEdit,
       }}
     >
-      <div className="App">
+      <div className="h-screen">
         <Header expandSidebar={handleExpandSidebar} name={name}></Header>
         <main className="flex">
           <SideBar
@@ -109,6 +173,7 @@ function App(props) {
           />
           <Content classes="flex-grow" />
         </main>
+        {edit && <Modal />}
       </div>
     </KeepContext.Provider>
   );
