@@ -15,7 +15,7 @@ const Options = props => {
         <MdRefresh size="1.5em" />
       </Button>
       <Button classes="mr-1" clicked={switchLayout}>
-        {grid ? <BsGrid3X3Gap size="1.5em" /> : <MdViewList size="1.5em" />}
+        {!grid ? <BsGrid3X3Gap size="1.5em" /> : <MdViewList size="1.5em" />}
       </Button>
 
       <Button classes="mr-2">

@@ -18,6 +18,7 @@ function App(props) {
       selectedLabels: ['javascript', 'tailwind'],
       bgColor: 'bg-white',
       archived: false,
+      deleted: false,
     },
     {
       id: 2,
@@ -26,6 +27,7 @@ function App(props) {
       selectedLabels: ['javascript', 'tailwind'],
       bgColor: 'bg-white',
       archived: true,
+      deleted: false,
     },
   ]);
   const [isExpanded, setIsExpanded] = useState(false);
@@ -115,7 +117,18 @@ function App(props) {
   };
 
   const deleteNote = noteId => {
-    setNotes([...notes.filter(n => n.id !== noteId)]);
+    setNotes([
+      ...notes.map(n => {
+        if (n.id === noteId) {
+          return {
+            ...n,
+            deleted: true,
+          };
+        } else {
+          return n;
+        }
+      }),
+    ]);
   };
 
   const deleteLabel = label => {
@@ -147,7 +160,9 @@ function App(props) {
     }
   }, [props.location.pathname]);
 
-  let filteredNotes = [...notes.filter(n => !n.archived)];
+  let filteredNotes = [
+    ...notes.filter(note => !note.archived && !note.deleted),
+  ];
 
   let labelPathPatern = /\/label\/(.+)/;
   let isMatch = props.location.pathname.match(labelPathPatern);
@@ -160,9 +175,14 @@ function App(props) {
   let archivePathPatern = /\/archive/;
   let isArchive = props.location.pathname.match(archivePathPatern);
   if (isArchive) {
-    filteredNotes = [...notes.filter(n => n.archived)];
+    filteredNotes = [...notes.filter(n => n.archived && !n.deleted)];
   }
 
+  let trashPathPatern = /\/trash/;
+  let isTrash = props.location.pathname.match(trashPathPatern);
+  if (isTrash) {
+    filteredNotes = [...notes.filter(n => n.deleted === true)];
+  }
   return (
     <KeepContext.Provider
       value={{

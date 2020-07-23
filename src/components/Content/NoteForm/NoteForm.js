@@ -56,6 +56,7 @@ const NoteForm = ({ classes, isTyping, clicked, endTyping }) => {
       selectedLabels,
       bgColor,
       archived,
+      deleted: false,
     });
   };
 

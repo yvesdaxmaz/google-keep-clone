@@ -1,9 +1,8 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import Button from '../../UI/Button/Button';
 import PaletteButton from '../../UI/PaletteButton/PaletteButton';
 import { FaRegBell, FaUserPlus, FaPalette, FaImage } from 'react-icons/fa';
 import { MdArchive, MdUnarchive } from 'react-icons/md';
-import KeepContext from './../../context/KeepContext';
 
 const NoteOptions = ({
   classes,
@@ -13,7 +12,6 @@ const NoteOptions = ({
   archive,
   unarchive,
 }) => {
-  const { archiveNote, unArchiveNote } = useContext(KeepContext);
   let spacingClasses = `${large ? 'mr-4' : 'mr-2'}`;
   return (
     <div className={classes}>

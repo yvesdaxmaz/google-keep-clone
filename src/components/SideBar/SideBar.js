@@ -58,6 +58,7 @@ const SideBar = ({ classes, isExpanded, location }) => {
           <Link to="/archive">
             <TitledButton
               label="Archive"
+              isExpanded={isExpanded}
               isActive={isActive('/archive') ? true : false}
             >
               <FaArchive size="1.5em" />
@@ -67,6 +68,7 @@ const SideBar = ({ classes, isExpanded, location }) => {
           <Link to="/trash">
             <TitledButton
               label="Corbeille"
+              isExpanded={isExpanded}
               isActive={isActive('/trash') ? true : false}
             >
               <BsTrash size="1.5em" />
