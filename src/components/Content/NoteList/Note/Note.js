@@ -65,15 +65,19 @@ const Note = ({ classes, note, clicked }) => {
       >
         <div className="">
           <div className="flex items-start" style={{ wordWrap: 'anywhere' }}>
-            <span className="flex-grow mr-2 text-sm font-semibold text-gray-600">
-              {note.title}
-            </span>
+            <span
+              className="flex-grow mr-2 text-sm font-semibold text-gray-600"
+              dangerouslySetInnerHTML={{ __html: note.title }}
+            ></span>
             <Button classes="" small>
               <RiPushpin2Line size="1.2em" />
             </Button>
           </div>
           <div className="text-sm mb-2">
-            <span className="w-full text-gray-600">{note.content}</span>
+            <span
+              className="w-full text-gray-600"
+              dangerouslySetInnerHTML={{ __html: note.content }}
+            ></span>
           </div>
           {note.selectedLabels && (
             <div className="mt-4 mb-2">
