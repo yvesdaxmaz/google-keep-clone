@@ -41,6 +41,19 @@ function App(props) {
       return label;
     });
     setLabels(newLabels);
+    setNotes(
+      [...notes].map(n => {
+        return {
+          ...n,
+          selectedLabels: n.selectedLabels.map(l => {
+            if (l === oldLabel) {
+              return newLabel;
+            }
+            return l;
+          }),
+        };
+      }),
+    );
   };
 
   const addLabel = label => {
@@ -107,6 +120,14 @@ function App(props) {
 
   const deleteLabel = label => {
     setLabels([...labels.filter(l => l !== label)]);
+    setNotes(
+      [...notes].map(n => {
+        return {
+          ...n,
+          selectedLabels: n.selectedLabels.filter(l => l !== label),
+        };
+      }),
+    );
   };
 
   const addNote = note => {
