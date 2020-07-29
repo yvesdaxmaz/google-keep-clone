@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef, useContext } from 'react';
 import Button from './../../../../UI/Button/Button';
 import { RiPushpin2Line } from 'react-icons/ri';
+import { BsCheck } from 'react-icons/bs';
 import { TiPin } from 'react-icons/ti';
 import NoteOptions from './../../../NoteOptions/NoteOptions';
 import NoteParameters from '../../../NoteParemeters/NoteParameters';
@@ -16,6 +17,7 @@ const Note = ({ classes, note, clicked }) => {
     pinnedNote,
   } = useContext(KeepContext);
   const [checked, setChecked] = useState(false);
+  const [hovered, setHovered] = useState(false);
   const wrapperRef = useRef(null);
 
   const handleChecked = () => {
@@ -49,6 +51,13 @@ const Note = ({ classes, note, clicked }) => {
     }
   };
 
+  const handleMouseEnter = () => {
+    setHovered(true);
+  };
+
+  const handleMouseLeave = () => {
+    setHovered(false);
+  };
   useEffect(() => {
     window.addEventListener('mousedown', handleClickOutside);
     return () => {
@@ -58,12 +67,23 @@ const Note = ({ classes, note, clicked }) => {
 
   return (
     <div
-      className=" w-full max-w-2xl mx-auto mb-2"
+      className={`relative w-full max-w-2xl mx-auto mb-2 ${
+        hovered ? 'shadow' : ''
+      }`}
       onClick={clicked}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
       ref={wrapperRef}
     >
+      {hovered && (
+        <div className="absolute flex items-center justify-center top-0 lef-0 -ml-3 -mt-3 w-6 h-6 bg-gray-800 rounded-full text-white">
+          <BsCheck />
+        </div>
+      )}
       <div
-        className={`${note.bgColor} rounded shadow border-2 border-gray-300 p-4`}
+        className={`${note.bgColor} rounded border border-gray-300 ${
+          hovered ? 'shadow' : ''
+        } p-4`}
       >
         <div className="">
           <div className="flex items-start" style={{ wordWrap: 'anywhere' }}>
