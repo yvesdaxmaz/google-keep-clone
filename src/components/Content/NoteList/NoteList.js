@@ -61,7 +61,7 @@ const NoteList = ({ classes, location }) => {
         </>
       )}
 
-      {pinnedExists && (
+      {pinnedExists && filteredNotes.length > 0 && (
         <div className={`w-full ${grid ? '' : 'max-w-2xl'} mx-auto mt-4`}>
           <div className="px-4 text-xs text-gray-600 font-bold uppercase">
             Autres
