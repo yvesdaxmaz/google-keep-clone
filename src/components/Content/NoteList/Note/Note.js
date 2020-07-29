@@ -94,7 +94,7 @@ const Note = ({ classes, note, clicked }) => {
         <div className="flex flex-wrap items-center">
           <NoteOptions
             change={handleChangeBackground}
-            large={grid}
+            large={!grid}
             archived={note.archived}
             archive={handleArchive}
             unarchive={handleUnarchive}
