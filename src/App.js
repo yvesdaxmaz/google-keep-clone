@@ -160,29 +160,6 @@ function App(props) {
     }
   }, [props.location.pathname]);
 
-  let filteredNotes = [
-    ...notes.filter(note => !note.archived && !note.deleted),
-  ];
-
-  let labelPathPatern = /\/label\/(.+)/;
-  let isMatch = props.location.pathname.match(labelPathPatern);
-  if (isMatch) {
-    filteredNotes = filteredNotes.filter(note =>
-      note.selectedLabels.includes(isMatch[1]),
-    );
-  }
-
-  let archivePathPatern = /\/archive/;
-  let isArchive = props.location.pathname.match(archivePathPatern);
-  if (isArchive) {
-    filteredNotes = [...notes.filter(n => n.archived && !n.deleted)];
-  }
-
-  let trashPathPatern = /\/trash/;
-  let isTrash = props.location.pathname.match(trashPathPatern);
-  if (isTrash) {
-    filteredNotes = [...notes.filter(n => n.deleted === true)];
-  }
   return (
     <KeepContext.Provider
       value={{
@@ -192,7 +169,7 @@ function App(props) {
         editLabel,
         deleteLabel,
         selectLabel,
-        notes: filteredNotes,
+        notes,
         deleteNote,
         addNote,
         selectBg,

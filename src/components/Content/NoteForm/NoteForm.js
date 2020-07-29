@@ -24,6 +24,13 @@ const NoteForm = ({ classes, isTyping, clicked, endTyping }) => {
       setTitle(title);
     }
   };
+
+  const handleContentChange = event => {
+    let note = event.target.value;
+    console.log(note);
+    setContent(note);
+  };
+
   const handleChecked = () => {
     setChecked(!checked);
   };
@@ -60,11 +67,6 @@ const NoteForm = ({ classes, isTyping, clicked, endTyping }) => {
     });
   };
 
-  const handleContentChange = event => {
-    let note = event.target.value;
-    setContent(note);
-  };
-
   const handleChangeBackground = bgColor => {
     setBgColor(bgColor);
   };
@@ -74,7 +76,6 @@ const NoteForm = ({ classes, isTyping, clicked, endTyping }) => {
       endTyping();
 
       if (title !== '' || content !== '') {
-        console.log('');
         saveNote();
       }
       setContent('');
