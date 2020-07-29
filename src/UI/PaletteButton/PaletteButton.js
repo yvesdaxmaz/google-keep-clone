@@ -45,7 +45,7 @@ const PaletteButton = ({ classes, clicked, spacing, small, change }) => {
       <div
         className={`${
           hovered ? '' : 'hidden'
-        } absolute top-10 w-32 left-0 white rounded border shadow`}
+        } absolute z-50 top-10 w-32 left-0 white rounded border shadow`}
       >
         <div className="grid grid-cols-4 grid-rows-3 gap-2 p-2 bg-white">
           {colors.map(c => (
