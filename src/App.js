@@ -19,6 +19,7 @@ function App(props) {
       bgColor: 'bg-white',
       archived: false,
       deleted: false,
+      pinned: false,
     },
     {
       id: 2,
@@ -28,6 +29,17 @@ function App(props) {
       bgColor: 'bg-white',
       archived: true,
       deleted: false,
+      pinned: false,
+    },
+    {
+      id: 3,
+      title: 'This is a pinned notet',
+      content: 'this not is for testing archive note',
+      selectedLabels: ['javascript', 'tailwind'],
+      bgColor: 'bg-green-300',
+      archived: false,
+      deleted: false,
+      pinned: true,
     },
   ]);
   const [isExpanded, setIsExpanded] = useState(false);
@@ -91,6 +103,17 @@ function App(props) {
     if (noteIndex !== -1) {
       let note = updateNotes[noteIndex];
       note.bgColor = color;
+    }
+
+    setNotes(updateNotes);
+  };
+
+  const pinnedNote = noteId => {
+    let updateNotes = [...notes];
+    let noteIndex = updateNotes.findIndex(n => n.id === noteId);
+    if (noteIndex !== -1) {
+      let note = updateNotes[noteIndex];
+      note.pinned = !note.pinned;
     }
 
     setNotes(updateNotes);
@@ -178,6 +201,7 @@ function App(props) {
         unArchiveNote,
         startEdit,
         endEdit,
+        pinnedNote,
       }}
     >
       <div className="h-screen">

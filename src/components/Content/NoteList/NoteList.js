@@ -31,11 +31,47 @@ const NoteList = ({ classes, location }) => {
     filteredNotes = [...notes.filter(n => n.deleted === true)];
   }
 
+  let pinnedExists = filteredNotes.some(el => el.pinned);
+  let pinnedNotes = [];
+  if (pinnedExists) {
+    pinnedNotes = [...filteredNotes].filter(n => n.pinned);
+    filteredNotes = filteredNotes.filter(n => !n.pinned);
+  }
+
   return (
     <>
-      {filteredNotes.length > 0 ? (
+      {pinnedExists && (
+        <>
+          <div className={`w-full ${grid ? '' : 'max-w-2xl'} mx-auto mt-4`}>
+            <div className="px-4 text-xs text-gray-600 font-bold uppercase">
+              Note épinglées
+            </div>
+          </div>
+          <div
+            className={`${classes} ${!pinnedExists ? 'py-4' : ''} ${
+              grid
+                ? 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2'
+                : ''
+            }`}
+          >
+            {pinnedNotes.map((note, i) => (
+              <Note note={note} key={i} />
+            ))}
+          </div>
+        </>
+      )}
+
+      {pinnedExists && (
+        <div className={`w-full ${grid ? '' : 'max-w-2xl'} mx-auto mt-4`}>
+          <div className="px-4 text-xs text-gray-600 font-bold uppercase">
+            Autres
+          </div>
+        </div>
+      )}
+
+      {filteredNotes.length > 0 || pinnedExists ? (
         <div
-          className={`${classes} py-4 ${
+          className={`${classes} ${!pinnedExists ? 'py-4' : ''} ${
             grid
               ? 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2'
               : ''

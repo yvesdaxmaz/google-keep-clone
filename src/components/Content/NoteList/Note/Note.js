@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef, useContext } from 'react';
 import Button from './../../../../UI/Button/Button';
 import { RiPushpin2Line } from 'react-icons/ri';
+import { TiPin } from 'react-icons/ti';
 import NoteOptions from './../../../NoteOptions/NoteOptions';
 import NoteParameters from '../../../NoteParemeters/NoteParameters';
 import Badge from './../../../../UI/Badge/Badge';
@@ -12,6 +13,7 @@ const Note = ({ classes, note, clicked }) => {
     selectBg,
     archiveNote,
     unArchiveNote,
+    pinnedNote,
   } = useContext(KeepContext);
   const [checked, setChecked] = useState(false);
   const wrapperRef = useRef(null);
@@ -69,8 +71,12 @@ const Note = ({ classes, note, clicked }) => {
               className="flex-grow mr-2 text-sm font-semibold text-gray-600"
               dangerouslySetInnerHTML={{ __html: note.title }}
             ></span>
-            <Button classes="" small>
-              <RiPushpin2Line size="1.2em" />
+            <Button classes="" small clicked={() => pinnedNote(note.id)}>
+              {note.pinned ? (
+                <TiPin size="1.2em" />
+              ) : (
+                <RiPushpin2Line size="1.2em" />
+              )}
             </Button>
           </div>
           <div className="text-sm mb-2">
