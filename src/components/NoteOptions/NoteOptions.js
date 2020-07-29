@@ -16,24 +16,39 @@ const NoteOptions = ({
   return (
     <div className={classes}>
       <div className="flex">
-        <Button classes={spacingClasses} small>
+        <Button classes={spacingClasses} small altText="M'envoyer un rappel">
           <FaRegBell />
         </Button>
-        <Button classes={spacingClasses} small>
+        <Button classes={spacingClasses} small altText="Collaborateur">
           <FaUserPlus />
         </Button>
-        <PaletteButton spacing={spacingClasses} small change={change}>
+        <PaletteButton
+          spacing={spacingClasses}
+          small
+          change={change}
+          altText="Modifier la couleur"
+        >
           <FaPalette />
         </PaletteButton>
-        <Button classes={spacingClasses} small>
+        <Button classes={spacingClasses} small altText="Ajouter une image">
           <FaImage />
         </Button>
         {!archived ? (
-          <Button classes={spacingClasses} small clicked={archive}>
+          <Button
+            classes={spacingClasses}
+            small
+            clicked={archive}
+            altText="Archiver"
+          >
             <MdArchive />
           </Button>
         ) : (
-          <Button classes={spacingClasses} small clicked={unarchive}>
+          <Button
+            classes={spacingClasses}
+            small
+            clicked={unarchive}
+            altText="Annuler l'archivage"
+          >
             <MdUnarchive />
           </Button>
         )}

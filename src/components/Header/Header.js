@@ -10,7 +10,11 @@ const Header = props => {
     <div className="border-b border-gray-300 shadow">
       <div className="flex items-center justify-between py-2 px-4">
         <div className="flex items-center">
-          <Button classes="mr-2" clicked={props.expandSidebar}>
+          <Button
+            classes="mr-2"
+            clicked={props.expandSidebar}
+            altText="Menu Principale"
+          >
             <BsList size="1.5em" />
           </Button>
           <Logo name={props.name} />

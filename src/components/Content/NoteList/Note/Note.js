@@ -71,7 +71,12 @@ const Note = ({ classes, note, clicked }) => {
               className="flex-grow mr-2 text-sm font-semibold text-gray-600"
               dangerouslySetInnerHTML={{ __html: note.title }}
             ></span>
-            <Button classes="" small clicked={() => pinnedNote(note.id)}>
+            <Button
+              classes=""
+              small
+              clicked={() => pinnedNote(note.id)}
+              altText={note.pinned ? 'Retirer la note' : 'Epingler la note'}
+            >
               {note.pinned ? (
                 <TiPin size="1.2em" />
               ) : (
