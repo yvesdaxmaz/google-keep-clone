@@ -142,7 +142,11 @@ const Note = ({ classes, note, clicked }) => {
             </div>
           )}
         </div>
-        <div className="flex flex-wrap items-center">
+        <div
+          className={`flex flex-wrap items-center ${
+            hovered && isSelected === -1 ? 'opacity-100' : 'opacity-0'
+          }`}
+        >
           <NoteOptions
             change={handleChangeBackground}
             large={!grid}
