@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useRef, useContext } from 'react';
 import Button from './../../../../UI/Button/Button';
 import { RiPushpin2Line } from 'react-icons/ri';
-import { BsCheck } from 'react-icons/bs';
 import { TiPin } from 'react-icons/ti';
 import NoteOptions from './../../../NoteOptions/NoteOptions';
 import NoteParameters from '../../../NoteParemeters/NoteParameters';
 import Badge from './../../../../UI/Badge/Badge';
+import CheckMark from './../../../../UI/CheckMark/CheckMark';
 import KeepContext from './../../../../context/KeepContext';
 const Note = ({ classes, note, clicked }) => {
   const {
@@ -15,6 +15,8 @@ const Note = ({ classes, note, clicked }) => {
     archiveNote,
     unArchiveNote,
     pinnedNote,
+    selectNote,
+    selectedNotes,
   } = useContext(KeepContext);
   const [checked, setChecked] = useState(false);
   const [hovered, setHovered] = useState(false);
@@ -22,6 +24,7 @@ const Note = ({ classes, note, clicked }) => {
 
   const handleChecked = () => {
     setChecked(!checked);
+    console.log('show checkbox');
   };
 
   const handleArchive = () => {
@@ -30,6 +33,11 @@ const Note = ({ classes, note, clicked }) => {
 
   const handleUnarchive = () => {
     unArchiveNote(note.id);
+  };
+
+  const handleSelectNote = () => {
+    console.log(note.id);
+    selectNote(note.id);
   };
 
   const handleSelectLabel = label => {
@@ -65,6 +73,8 @@ const Note = ({ classes, note, clicked }) => {
     };
   }, []);
 
+  let isSelected = selectedNotes.findIndex(n => n === note.id);
+
   return (
     <div
       className={`relative w-full max-w-2xl mx-auto mb-2 ${
@@ -75,15 +85,25 @@ const Note = ({ classes, note, clicked }) => {
       onMouseLeave={handleMouseLeave}
       ref={wrapperRef}
     >
-      {hovered && (
-        <div className="absolute flex items-center justify-center top-0 lef-0 -ml-3 -mt-3 w-6 h-6 bg-gray-800 rounded-full text-white">
-          <BsCheck />
+      {(hovered || isSelected !== -1) && (
+        <div className="absolute top-0 lefst-0 -ml-3 -mt-3">
+          <CheckMark
+            altText={
+              isSelected !== -1
+                ? 'Désélectionner la note'
+                : 'Sélectionner la note'
+            }
+            clicked={handleSelectNote}
+            checked={isSelected !== -1 ? true : false}
+          />
         </div>
       )}
       <div
-        className={`${note.bgColor} rounded border border-gray-300 ${
-          hovered ? 'shadow' : ''
-        } p-4`}
+        className={`rounded ${note.bgColor} ${
+          isSelected !== -1
+            ? 'border-2 border-gray-800'
+            : 'border border-gray-300'
+        } ${hovered ? 'shadow' : ''} p-4`}
       >
         <div className="">
           <div className="flex items-start" style={{ wordWrap: 'anywhere' }}>

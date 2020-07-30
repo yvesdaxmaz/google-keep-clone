@@ -9,6 +9,7 @@ import Modal from './components/Modal/Modal';
 function App(props) {
   const [edit, setEdit] = useState(false);
   const [grid, setGrid] = useState(false);
+  const [selectedNotes, setSelectedNotes] = useState([]);
   const [labels, setLabels] = useState(['javascript', 'Projects', 'tailwind']);
   const [notes, setNotes] = useState([
     {
@@ -154,6 +155,15 @@ function App(props) {
     ]);
   };
 
+  const selectNote = noteId => {
+    let noteIndex = selectedNotes.findIndex(id => id === noteId);
+    if (noteIndex !== -1) {
+      setSelectedNotes([...selectedNotes].filter(id => id !== noteId));
+    } else {
+      setSelectedNotes([...selectedNotes, noteId]);
+    }
+  };
+
   const deleteLabel = label => {
     setLabels([...labels.filter(l => l !== label)]);
     setNotes(
@@ -195,6 +205,8 @@ function App(props) {
         notes,
         deleteNote,
         addNote,
+        selectNote,
+        selectedNotes,
         selectBg,
         switchLayout: switchToGridLayout,
         archiveNote,
