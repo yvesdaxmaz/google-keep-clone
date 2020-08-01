@@ -155,6 +155,9 @@ function App(props) {
     ]);
   };
 
+  const clearSelectedNotes = () => {
+    setSelectedNotes([]);
+  };
   const selectNote = noteId => {
     let noteIndex = selectedNotes.findIndex(id => id === noteId);
     if (noteIndex !== -1) {
@@ -207,6 +210,7 @@ function App(props) {
         addNote,
         selectNote,
         selectedNotes,
+        clearSelectedNotes,
         selectBg,
         switchLayout: switchToGridLayout,
         archiveNote,

@@ -13,7 +13,7 @@ const CheckMark = ({ clicked, altText, checked }) => {
 
   return (
     <button
-      className={`relative flex items-center justify-center w-6 h-6 bg-gray-800 rounded-full ${
+      className={`checkmark relative flex items-center justify-center w-6 h-6 bg-gray-800 rounded-full ${
         checked ? 'text-white' : 'text-gray-600'
       }`}
       onClick={clicked}

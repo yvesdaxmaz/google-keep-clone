@@ -17,6 +17,7 @@ const Note = ({ classes, note, clicked }) => {
     pinnedNote,
     selectNote,
     selectedNotes,
+    clearSelectedNotes,
   } = useContext(KeepContext);
   const [checked, setChecked] = useState(false);
   const [hovered, setHovered] = useState(false);
@@ -36,7 +37,6 @@ const Note = ({ classes, note, clicked }) => {
   };
 
   const handleSelectNote = () => {
-    console.log(note.id);
     selectNote(note.id);
   };
 
@@ -55,7 +55,18 @@ const Note = ({ classes, note, clicked }) => {
   };
 
   const handleClickOutside = event => {
-    if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
+    const {
+      target: { classList, parentNode },
+    } = event;
+    let parentNodeClasses = Array.from(parentNode.classList);
+
+    if (
+      Array.from(classList).includes('checkmark') ||
+      parentNodeClasses.includes('checkmark')
+    ) {
+      console.log('click on checkmark');
+    } else {
+      clearSelectedNotes();
     }
   };
 
@@ -77,7 +88,7 @@ const Note = ({ classes, note, clicked }) => {
 
   return (
     <div
-      className={`relative w-full max-w-2xl mx-auto mb-2 ${
+      className={`note relative w-full max-w-2xl mx-auto mb-2 ${
         hovered ? 'shadow' : ''
       }`}
       onClick={clicked}
