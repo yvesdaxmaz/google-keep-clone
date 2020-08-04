@@ -157,6 +157,25 @@ function App(props) {
     ]);
   };
 
+  const restaureNote = noteId => {
+    setNotes([
+      ...notes.map(n => {
+        if (n.id === noteId) {
+          return {
+            ...n,
+            deleted: false,
+          };
+        } else {
+          return n;
+        }
+      }),
+    ]);
+  };
+
+  const hardDeleteNote = noteId => {
+    setNotes([...notes.filter(n => n.id !== noteId)]);
+  };
+
   const clearSelectedNotes = () => {
     setSelectedNotes([]);
   };
@@ -220,6 +239,9 @@ function App(props) {
         startEdit,
         endEdit,
         pinnedNote,
+        hardDeleteNote,
+        restaureNote
+
       }}
     >
       <div className="h-screen">

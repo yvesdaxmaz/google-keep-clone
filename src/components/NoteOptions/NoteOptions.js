@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import Button from '../../UI/Button/Button';
 import PaletteButton from '../../UI/PaletteButton/PaletteButton';
 import {
@@ -10,6 +10,7 @@ import {
   FaTrashRestore,
 } from 'react-icons/fa';
 import { MdArchive, MdUnarchive } from 'react-icons/md';
+import KeepContext from '../../context/KeepContext';
 
 const NoteOptions = ({
   classes,
@@ -19,8 +20,20 @@ const NoteOptions = ({
   archive,
   deleted,
   unarchive,
+  noteId,
 }) => {
+  const { hardDeleteNote, restaureNote } = useContext(KeepContext);
   let spacingClasses = `${large ? 'mr-4' : 'mr-2'}`;
+
+  const handleDelete = () => {
+    hardDeleteNote(noteId);
+    console.log('deleted');
+  };
+
+  const handleRestaure = () => {
+    restaureNote(noteId);
+  };
+
   if (deleted) {
     return (
       <div className={classes}>
@@ -29,10 +42,16 @@ const NoteOptions = ({
             classes={spacingClasses}
             small
             altText="Supprimer définitivement"
+            clicked={handleDelete}
           >
             <FaTrash />
           </Button>
-          <Button classes={spacingClasses} small altText="Restaurer">
+          <Button
+            classes={spacingClasses}
+            small
+            altText="Restaurer"
+            clicked={handleRestaure}
+          >
             <FaTrashRestore />
           </Button>
         </div>
