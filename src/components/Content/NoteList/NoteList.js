@@ -3,6 +3,7 @@ import { withRouter } from 'react-router-dom';
 import Note from './Note/Note';
 import KeepContext from './../../../context/KeepContext';
 import { AiOutlineBulb } from 'react-icons/ai';
+import { FaArchive, FaTrash } from 'react-icons/fa';
 
 const NoteList = ({ classes, location }) => {
   const { grid, notes } = useContext(KeepContext);
@@ -94,10 +95,32 @@ const NoteList = ({ classes, location }) => {
       ) : (
         <div className="flex items-center justify-center h-full">
           <div className="text-gray-600 text-center">
-            <AiOutlineBulb size="8em" className="mx-auto" />
-            <span className="text-xl mt-8">
-              Les notes ajoutées s'affichent ici.
-            </span>
+            {isTrash && (
+              <>
+                <FaTrash size="8em" className="mx-auto" />
+                <span className="text-xl mt-8">
+                  Aucune note dans la corbeille
+                </span>
+              </>
+            )}
+
+            {isArchive && (
+              <>
+                <FaArchive size="8em" className="mx-auto" />
+                <span className="text-xl mt-8">
+                  Vos notes archivées s'affichent ici.
+                </span>
+              </>
+            )}
+
+            {!isTrash && !isArchive && (
+              <>
+                <AiOutlineBulb size="8em" className="mx-auto" />
+                <span className="text-xl mt-8">
+                  Les notes ajoutées s'affichent ici.
+                </span>
+              </>
+            )}
           </div>
         </div>
       )}
