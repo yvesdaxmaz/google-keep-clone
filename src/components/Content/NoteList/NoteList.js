@@ -14,15 +14,9 @@ const NoteList = ({ classes, location }) => {
   let labelPathPatern = /\/label\/(.+)/;
   let isMatch = location.pathname.match(labelPathPatern);
   if (isMatch) {
-    filteredNotes = filteredNotes.filter(note =>
+    filteredNotes = [...notes].filter(note =>
       note.selectedLabels.includes(isMatch[1]),
     );
-  }
-
-  let archivePathPatern = /\/archive/;
-  let isArchive = location.pathname.match(archivePathPatern);
-  if (isArchive) {
-    filteredNotes = [...notes.filter(n => n.archived && !n.deleted)];
   }
 
   let trashPathPatern = /\/trash/;
@@ -36,6 +30,22 @@ const NoteList = ({ classes, location }) => {
   if (pinnedExists) {
     pinnedNotes = [...filteredNotes].filter(n => n.pinned);
     filteredNotes = filteredNotes.filter(n => !n.pinned);
+  }
+
+  let archivedNotes = [];
+  let archivedExists = false;
+
+  let archivePathPatern = /\/archive/;
+  let isArchive = location.pathname.match(archivePathPatern);
+  if (isArchive) {
+    pinnedExists = false;
+    filteredNotes = [...notes.filter(n => n.archived && !n.pinned)];
+  } else {
+    archivedExists = filteredNotes.some(el => el.archived);
+    if (archivedExists) {
+      archivedNotes = [...filteredNotes].filter(n => n.archived);
+      filteredNotes = filteredNotes.filter(n => !n.archived);
+    }
   }
 
   return (
@@ -90,6 +100,27 @@ const NoteList = ({ classes, location }) => {
             </span>
           </div>
         </div>
+      )}
+
+      {archivedExists && archivedNotes.length > 0 && (
+        <>
+          <div className={`w-full ${grid ? '' : 'max-w-2xl'} mx-auto mt-4`}>
+            <div className="px-4 text-xs text-gray-600 font-bold uppercase">
+              Note archivées
+            </div>
+          </div>
+          <div
+            className={`${classes} ${!archivedExists ? 'py-4' : ''} ${
+              grid
+                ? 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2'
+                : ''
+            }`}
+          >
+            {archivedNotes.map((note, i) => (
+              <Note note={note} key={i} />
+            ))}
+          </div>
+        </>
       )}
     </>
   );

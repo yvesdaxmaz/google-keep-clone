@@ -115,6 +115,7 @@ function App(props) {
     if (noteIndex !== -1) {
       let note = updateNotes[noteIndex];
       note.pinned = !note.pinned;
+      note.archived = false;
     }
 
     setNotes(updateNotes);
@@ -125,6 +126,7 @@ function App(props) {
     if (noteIndex !== -1) {
       let note = updateNotes[noteIndex];
       note.archived = true;
+      note.pinned = false;
     }
 
     setNotes(updateNotes);
