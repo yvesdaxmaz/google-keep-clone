@@ -161,19 +161,22 @@ const Note = ({ classes, note, clicked }) => {
           <NoteOptions
             change={handleChangeBackground}
             large={!grid}
+            deleted={note.deleted}
             archived={note.archived}
             archive={handleArchive}
             unarchive={handleUnarchive}
             noteId={note.id}
           />
-          <NoteParameters
-            small
-            note={note}
-            selectedLabels={note.selectedLabels}
-            selectLabel={handleSelectLabel}
-            checked={checked}
-            check={handleChecked}
-          />
+          {!note.deleted && (
+            <NoteParameters
+              small
+              note={note}
+              selectedLabels={note.selectedLabels}
+              selectLabel={handleSelectLabel}
+              checked={checked}
+              check={handleChecked}
+            />
+          )}
         </div>
       </div>
     </div>

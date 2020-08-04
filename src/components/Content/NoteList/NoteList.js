@@ -20,12 +20,6 @@ const NoteList = ({ classes, location }) => {
     );
   }
 
-  let trashPathPatern = /\/trash/;
-  let isTrash = location.pathname.match(trashPathPatern);
-  if (isTrash) {
-    filteredNotes = [...notes.filter(n => n.deleted === true)];
-  }
-
   let pinnedExists = filteredNotes.some(el => el.pinned);
   let pinnedNotes = [];
   if (pinnedExists) {
@@ -40,13 +34,23 @@ const NoteList = ({ classes, location }) => {
   let isArchive = location.pathname.match(archivePathPatern);
   if (isArchive) {
     pinnedExists = false;
-    filteredNotes = [...notes.filter(n => n.archived && !n.pinned)];
+    filteredNotes = [
+      ...notes.filter(n => n.archived && !n.pinned && !n.deleted),
+    ];
   } else {
     archivedExists = filteredNotes.some(el => el.archived);
     if (archivedExists) {
       archivedNotes = [...filteredNotes].filter(n => n.archived);
       filteredNotes = filteredNotes.filter(n => !n.archived);
     }
+  }
+
+  let trashPathPatern = /\/trash/;
+  let isTrash = location.pathname.match(trashPathPatern);
+  if (isTrash) {
+    archivedExists = false;
+    pinnedExists = false;
+    filteredNotes = [...notes.filter(n => n.deleted === true)];
   }
 
   return (
