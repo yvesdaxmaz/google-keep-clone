@@ -15,8 +15,8 @@ const NoteList = ({ classes, location }) => {
   let labelPathPatern = /\/label\/(.+)/;
   let isMatch = location.pathname.match(labelPathPatern);
   if (isMatch) {
-    filteredNotes = [...notes].filter(note =>
-      note.selectedLabels.includes(isMatch[1]),
+    filteredNotes = [...notes].filter(
+      note => note.selectedLabels.includes(isMatch[1]) && !note.deleted,
     );
   }
 
