@@ -2,6 +2,7 @@ import React, { useContext, useRef, useEffect } from 'react';
 import Button from './../../UI/Button/Button';
 import Label from './../../UI/Label/Label';
 import KeepContext from './../../context/KeepContext';
+import CreateLabel from './CreateLabel/CreateLabel';
 
 const Modal = ({ classes }) => {
   const { labels, endEdit } = useContext(KeepContext);
@@ -30,6 +31,9 @@ const Modal = ({ classes }) => {
       >
         <div className="py-4 px-4">
           <h2 className="text-xl">Modifier les libellés</h2>
+        </div>
+        <div className="px-4">
+          <CreateLabel />
         </div>
         <div className="">
           <div className="px-4 py-4">
