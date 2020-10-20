@@ -19,6 +19,7 @@ const CreateLabel = props => {
 
   const clearName = () => {
     setName('');
+    setEdit(false);
   };
 
   const saveLabel = () => {
@@ -54,9 +55,11 @@ const CreateLabel = props => {
             onBlur={handleOnBlur}
           />
         </div>
-        <Button small clicked={saveLabel}>
-          <FaCheck />
-        </Button>
+        {edit || (!edit && name !== '') ? (
+          <Button small clicked={saveLabel}>
+            <FaCheck />
+          </Button>
+        ) : null}
       </div>
     </div>
   );
